@@ -54,7 +54,4 @@
 </head>
 <body>
     <h1>Depósito de Fondos</h1>
-    <input type="number" id="amount-input" placeholder="Ingrese el monto" min="1" step="any">
-    <button id="custom-button">Depositar Fondos</button>
-</body>
-</html>
+    <input type="number" id="amount-input" placeholder="Ingrese el monto" min="1" step
