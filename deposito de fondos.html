@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depósito de Fondos</title>
+    <script>
+        const initBoldCheckout = () => {
+            if (document.querySelector('script[src="https://checkout.bold.co/library/boldPaymentButton.js"]')) {
+                console.warn('Bold Checkout script is already loaded.');
+                return;
+            }
+
+            var js = document.createElement('script');
+            js.onload = () => {
+                window.dispatchEvent(new Event('boldCheckoutLoaded'));
+            };
+            js.onerror = () => {
+                window.dispatchEvent(new Event('boldCheckoutLoadFailed'));
+            };
+            js.src = 'https://checkout.bold.co/library/boldPaymentButton.js';
+            document.head.appendChild(js);
+        };
+
+        initBoldCheckout();
+
+        window.addEventListener('boldCheckoutLoaded', () => {
+            const checkout = new BoldCheckout({
+                apiKey: 'l884Ny2fdD4uADNq00aWAXU2wo44kjyUPE2zlvRf838',
+                merchantId: '9XW3IZZ86Z',
+                integrationKey: 'l884Ny2fdD4uADNq00aWAXU2wo44kjyUPE2zlvRf838',
+                currency: 'COP',
+                reverseUrl: 'https://www.comerciolatam.online/junio2024#top',
+                description: 'Depósito de fondos',
+                successCallback: () => {
+                    window.location.href = 'https://www.comerciolatam.online/junio2024#top';
+                }
+            });
+
+            document.getElementById('custom-button').addEventListener('click', () => {
+                const amount = parseFloat(document.getElementById('amount-input').value);
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Por favor ingrese un monto válido.');
+                    return;
+                }
+                checkout.open({ amount: amount });
+            });
+        });
+
+        window.addEventListener('boldCheckoutLoadFailed', () => {
+            console.error('Failed to load Bold Checkout script.');
+        });
+    </script>
+</head>
+<body>
+    <h1>Depósito de Fondos</h1>
+    <input type="number" id="amount-input" placeholder="Ingrese el monto" min="1" step="any">
+    <button id="custom-button">Depositar Fondos</button>
+</body>
+</html>
